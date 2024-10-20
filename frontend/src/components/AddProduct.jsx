@@ -1,6 +1,7 @@
 import * as Yup from "Yup";
 import { useFormik } from "formik";
 import { LiaRupeeSignSolid } from "react-icons/lia";
+import axios from "axios";
 
 const initialValues = {
   name: "",
@@ -17,7 +18,7 @@ const addProductSchema = Yup.object().shape({
   name: Yup.string()
     .required("Please enter the product name")
     .min(3, "Minimum 3 characters")
-    .max(20, "Max. 20 characters"),
+    .max(50, "Max. 50 characters"),
   unit: Yup.string().required("Please enter the unit"),
   price: Yup.number().required("Please enter the price"),
   imgUrl: Yup.string().required("Please enter the image Url"),
@@ -36,16 +37,18 @@ const addProductSchema = Yup.object().shape({
   description: Yup.string()
     .required("Please enter the product description")
     .min(4, "Minimum 4 characters")
-    .max(100, "Max. 100 characters"),
+    .max(200, "Max. 200 characters"),
 });
 
 const AddProduct = () => {
   const formik = useFormik({
     initialValues,
     validationSchema: addProductSchema,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       formik.resetForm();
-      console.log("Form values", values);
+      const res = await axios.post("http://localhost:1000/addproduct", values);
+      console.log(res.data);
+      // console.log("Form values", values);
     },
   });
   return (
