@@ -2,6 +2,8 @@ import * as Yup from "Yup";
 import { useFormik } from "formik";
 import { LiaRupeeSignSolid } from "react-icons/lia";
 import axios from "axios";
+import { useContext } from "react";
+import ProductContex from "../context/productContex/ProductContex";
 
 const initialValues = {
   name: "",
@@ -41,17 +43,46 @@ const addProductSchema = Yup.object().shape({
 });
 
 const AddProduct = () => {
+  const {
+    isLoading,
+    isError,
+    isSuccess,
+    setIsError,
+    setIsSuccess,
+    setIsLoading,
+  } = useContext(ProductContex);
+
   const formik = useFormik({
     initialValues,
     validationSchema: addProductSchema,
     onSubmit: async (values) => {
+      setIsLoading(true);
+      try {
+        setIsError(false);
+        await axios.post(
+          `${import.meta.env.VITE_BACKEND_URL}/addproduct`,
+          values
+        );
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 1500);
+        setTimeout(() => {
+          setIsSuccess(true);
+        }, 1500);
+        setTimeout(() => {
+          setIsSuccess(false);
+        }, 2500);
+      } catch (error) {
+        setIsSuccess(false);
+        setIsLoading(false);
+        setIsError(true);
+        setTimeout(() => {
+          setIsError(false);
+        }, 1500);
+        console.log(error.message);
+      }
+
       formik.resetForm();
-      const res = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/addproduct`,
-        values
-      );
-      console.log(res.data);
-      // console.log("Form values", values);
     },
   });
 
@@ -68,7 +99,7 @@ const AddProduct = () => {
             type="text"
             name="name"
             id="name"
-            value={formik.values.name}
+            value={formik.values.name.replace(/\s+/g, " ")}
             onChange={formik.handleChange}
             className="p-2 placeholder-red-500 border rounded-md outline-blue-400"
           />
@@ -85,7 +116,7 @@ const AddProduct = () => {
               type="text"
               name="unit"
               id="unit"
-              value={formik.values.unit}
+              value={formik.values.unit.replace(/\s+/g, " ")}
               onChange={formik.handleChange}
               className="p-2 placeholder-red-500 border rounded-md outline-blue-400"
             />
@@ -120,7 +151,7 @@ const AddProduct = () => {
             type="text"
             name="imgUrl"
             id="imgUrl"
-            value={formik.values.imgUrl}
+            value={formik.values.imgUrl.replace(/\s+/g, " ")}
             onChange={formik.handleChange}
             className="p-2 placeholder-red-500 border rounded-md outline-blue-400"
           />
@@ -136,7 +167,7 @@ const AddProduct = () => {
             type="text"
             name="type"
             id="type"
-            value={formik.values.type}
+            value={formik.values.type.replace(/\s+/g, " ")}
             onChange={formik.handleChange}
             className="p-2 placeholder-red-500 border rounded-md outline-blue-400"
           />
@@ -152,7 +183,7 @@ const AddProduct = () => {
             type="text"
             name="category"
             id="category"
-            value={formik.values.category}
+            value={formik.values.category.replace(/\s+/g, " ")}
             onChange={formik.handleChange}
             className="p-2 placeholder-red-500 border rounded-md outline-blue-400"
           />
@@ -168,7 +199,7 @@ const AddProduct = () => {
             type="text"
             name="seller"
             id="seller"
-            value={formik.values.seller}
+            value={formik.values.seller.replace(/\s+/g, " ")}
             onChange={formik.handleChange}
             className="p-2 placeholder-red-500 border rounded-md outline-blue-400"
           />
@@ -186,7 +217,7 @@ const AddProduct = () => {
             type="text"
             name="description"
             id="description"
-            value={formik.values.description}
+            value={formik.values.description.replace(/\s+/g, " ")}
             onChange={formik.handleChange}
             className="p-2 placeholder-red-500 border rounded-md outline-blue-400"
           />
@@ -196,12 +227,30 @@ const AddProduct = () => {
               : null}
           </p>
         </div>
-        <button
-          type="submit"
-          className="w-full py-2 text-xs font-bold text-white bg-blue-500 rounded-md sm:text-base hover:bg-blue-600"
-        >
-          ADD
-        </button>
+        {isSuccess && !isLoading ? (
+          <button
+            type="submit"
+            className="w-full py-2 text-xs font-bold text-white bg-green-600 rounded-md sm:text-base"
+          >
+            Product added successfully
+          </button>
+        ) : null}
+        {isError && !isLoading ? (
+          <button
+            type="submit"
+            className="w-full py-2 text-xs font-bold text-white bg-red-600 rounded-md sm:text-base"
+          >
+            Something went wrong
+          </button>
+        ) : null}
+        {!isSuccess && !isError ? (
+          <button
+            type="submit"
+            className="w-full py-2 text-xs font-bold text-white bg-blue-500 rounded-md sm:text-base hover:bg-blue-600"
+          >
+            {isLoading ? "ADDING ..." : "ADD"}
+          </button>
+        ) : null}
       </form>
     </div>
   );

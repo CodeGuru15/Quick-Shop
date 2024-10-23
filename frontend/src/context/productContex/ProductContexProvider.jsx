@@ -16,13 +16,12 @@ const ProductContexProvider = ({ children }) => {
         `${import.meta.env.VITE_BACKEND_URL}/products`
       );
       setProducts(res.data);
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 1000);
     } catch (error) {
       setIsError(true);
-      setIsLoading(false);
     }
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
   };
 
   useEffect(() => {
