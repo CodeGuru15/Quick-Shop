@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import AddProduct from "../components/AddProduct";
 
 const Admin = () => {
@@ -8,6 +9,11 @@ const Admin = () => {
       </h1>
       <div className="flex justify-center ">
         <AddProduct />
+      </div>
+      <div className="flex justify-center p-2 ">
+        <Link to="/" className="hover:underline">
+          Back To Home
+        </Link>
       </div>
     </div>
   );

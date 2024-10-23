@@ -6,7 +6,9 @@ const Product = ({ imgurl, name, unit, price }) => {
         <img src={imgurl} alt={name} />
       </div>
       <div className="">
-        <p className="py-1 font-bold truncate sm:text-wrap">{name}</p>
+        <p className="py-1 overflow-hidden font-bold truncate sm:h-14 sm:text-wrap">
+          {name}
+        </p>
         <p className=" text-slate-800">{unit}</p>
       </div>
       <div className="flex gap-2 sm:justify-between">
@@ -16,7 +18,7 @@ const Product = ({ imgurl, name, unit, price }) => {
           </span>
           {price}
         </div>
-        <button className="px-4 py-2 text-base font-semibold text-green-900 border border-green-600 rounded-lg">
+        <button className="px-4 py-2 text-base font-semibold text-green-900 border border-green-900 rounded-lg hover:text-white hover:bg-green-600">
           ADD
         </button>
       </div>

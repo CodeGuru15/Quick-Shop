@@ -1,20 +1,35 @@
+import { useContext } from "react";
 import Navbar from "../components/Navbar";
 import Product from "../components/Product";
+import ProductContex from "../context/productContex/ProductContex";
+import Loader from "../components/Loader";
 
 const Home = () => {
+  const { products, isLoading, isError } = useContext(ProductContex);
+
   return (
     <div>
       <div>
         <Navbar />
       </div>
-      <div className="p-3 bg-slate-100">
-        <Product
-          imgurl="https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=270/app/assets/products/sliding_images/jpeg/ed1da884-8bfa-443c-b400-17e4e506d0bf.jpg?ts=1723375343"
-          name="Maggi Masala - 2 Minutes Instant Noodles"
-          unit="280 g"
-          price="56"
-        />
-      </div>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <div className="flex flex-wrap gap-1 p-3 bg-slate-100">
+          {products.map((item, index) => {
+            return (
+              <div key={index}>
+                <Product
+                  imgurl={item.imgUrl}
+                  name={item.name}
+                  unit={item.unit}
+                  price={item.price}
+                />
+              </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 };

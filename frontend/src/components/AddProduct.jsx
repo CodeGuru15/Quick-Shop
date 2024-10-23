@@ -25,7 +25,7 @@ const addProductSchema = Yup.object().shape({
   type: Yup.string()
     .required("Please enter the product type")
     .min(3, "Minimum 3 characters")
-    .max(10, "Max. 10 characters"),
+    .max(20, "Max. 20 characters"),
   category: Yup.string()
     .required("Please enter the category")
     .min(3, "Minimum 3 characters")
@@ -46,11 +46,15 @@ const AddProduct = () => {
     validationSchema: addProductSchema,
     onSubmit: async (values) => {
       formik.resetForm();
-      const res = await axios.post("http://localhost:1000/addproduct", values);
+      const res = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/addproduct`,
+        values
+      );
       console.log(res.data);
       // console.log("Form values", values);
     },
   });
+
   return (
     <div className="flex flex-col  max-w-md p-2 w-[90%] shadow-md bg-white rounded-md">
       <p className="font-bold text-center">Add product</p>
