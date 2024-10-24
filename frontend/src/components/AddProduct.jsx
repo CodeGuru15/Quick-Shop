@@ -27,11 +27,11 @@ const addProductSchema = Yup.object().shape({
   type: Yup.string()
     .required("Please enter the product type")
     .min(3, "Minimum 3 characters")
-    .max(20, "Max. 20 characters"),
+    .max(50, "Max. 50 characters"),
   category: Yup.string()
     .required("Please enter the category")
     .min(3, "Minimum 3 characters")
-    .max(20, "Max. 20 characters"),
+    .max(50, "Max. 50 characters"),
   seller: Yup.string()
     .required("Please enter the seller name")
     .min(3, "Minimum 3 characters")
@@ -50,6 +50,7 @@ const AddProduct = () => {
     setIsError,
     setIsSuccess,
     setIsLoading,
+    fetchProduct,
   } = useContext(ProductContex);
 
   const formik = useFormik({
@@ -63,6 +64,7 @@ const AddProduct = () => {
           `${import.meta.env.VITE_BACKEND_URL}/addproduct`,
           values
         );
+        fetchProduct();
         setTimeout(() => {
           setIsLoading(false);
         }, 1500);
@@ -71,14 +73,14 @@ const AddProduct = () => {
         }, 1500);
         setTimeout(() => {
           setIsSuccess(false);
-        }, 2500);
+        }, 3000);
       } catch (error) {
         setIsSuccess(false);
         setIsLoading(false);
         setIsError(true);
         setTimeout(() => {
           setIsError(false);
-        }, 1500);
+        }, 2000);
         console.log(error.message);
       }
 

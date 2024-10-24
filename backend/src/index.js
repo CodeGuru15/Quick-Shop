@@ -24,14 +24,13 @@ app.use(cors({ origin: "*" }));
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.status(200).send("Hello world");
+  res.status(200).send("Server is running");
 });
 
 app.post("/addproduct", async (req, res) => {
   try {
     const newProduct = await req.body;
-    // console.log(newProduct);
-    knex("product")
+    await knex("product")
       .insert(newProduct)
       .then(() => {
         console.log("Data inserted successfully!");
@@ -43,6 +42,18 @@ app.post("/addproduct", async (req, res) => {
   } catch (error) {
     console.error("Error inserting product:", error);
     res.status(500).send("Failed to insert product");
+  }
+});
+
+app.post("/delete", async (req, res) => {
+  try {
+    const product = await req.body;
+    await knex("product").where("id", "=", product.id).del();
+
+    res.status(200).send("Product deleted successfully");
+  } catch (error) {
+    console.error("Error deleting product:", error);
+    res.status(500).send("Failed to delete product");
   }
 });
 

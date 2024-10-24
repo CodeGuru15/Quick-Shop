@@ -38,6 +38,7 @@ const ProductContexProvider = ({ children }) => {
         setIsError,
         setIsSuccess,
         setIsLoading,
+        fetchProduct,
       }}
     >
       {children}

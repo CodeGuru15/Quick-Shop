@@ -20,7 +20,7 @@ const Navbar = () => {
           <CgProfile />
         </Link>
       </div>
-      <div className="flex items-center w-full p-1 rounded-lg lg:w-[500px] bg-slate-100">
+      <div className="flex items-center text-xs sm:text-base w-full p-1 rounded-lg lg:w-[500px] bg-slate-100">
         <p className="p-1 text-xl">
           <CiSearch />
         </p>
