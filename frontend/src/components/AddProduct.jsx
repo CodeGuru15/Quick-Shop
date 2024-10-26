@@ -4,17 +4,7 @@ import { LiaRupeeSignSolid } from "react-icons/lia";
 import axios from "axios";
 import { useContext } from "react";
 import ProductContex from "../context/productContex/ProductContex";
-
-const initialValues = {
-  name: "",
-  unit: "",
-  price: "",
-  imgUrl: "",
-  type: "",
-  category: "",
-  seller: "",
-  description: "",
-};
+// import { nanoid } from "nanoid";
 
 const addProductSchema = Yup.object().shape({
   name: Yup.string()
@@ -53,6 +43,17 @@ const AddProduct = () => {
     fetchProduct,
   } = useContext(ProductContex);
 
+  const initialValues = {
+    name: "",
+    unit: "",
+    price: "",
+    imgUrl: "",
+    type: "",
+    category: "",
+    seller: "",
+    description: "",
+  };
+
   const formik = useFormik({
     initialValues,
     validationSchema: addProductSchema,
@@ -64,6 +65,8 @@ const AddProduct = () => {
           `${import.meta.env.VITE_BACKEND_URL}/addproduct`,
           values
         );
+        console.log(values);
+
         fetchProduct();
         setTimeout(() => {
           setIsLoading(false);

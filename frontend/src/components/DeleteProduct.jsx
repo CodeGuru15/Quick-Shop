@@ -5,6 +5,7 @@ import { LiaRupeeSignSolid } from "react-icons/lia";
 import { MdDelete } from "react-icons/md";
 import { MdEdit } from "react-icons/md";
 import axios from "axios";
+import UpdateProductForm from "./UpdateProduct";
 
 const DeleteProduct = () => {
   const {
@@ -14,9 +15,12 @@ const DeleteProduct = () => {
     setIsSuccess,
     setIsLoading,
     fetchProduct,
+    setUpdateProduct,
+    isEditProduct,
+    setIsEditProduct,
   } = useContext(ProductContex);
   const [isDeleteProduct, setIsDeleteProduct] = useState(false);
-  const [isEditProduct, setIsEditProduct] = useState(false);
+
   const [delProduct, setDelProduct] = useState(null);
 
   const handleDelete = (item) => {
@@ -41,13 +45,16 @@ const DeleteProduct = () => {
     }
   };
 
-  const handleEdit = (id) => {
-    // console.log("edit", id);
+  const handleEdit = (item) => {
+    setUpdateProduct(item);
+    setIsEditProduct(true);
   };
 
   const handleCancel = () => {
     setIsDeleteProduct(false);
+    setIsEditProduct(false);
     setDelProduct(null);
+    setUpdateProduct({});
   };
 
   const DelProduct = ({ product }) => {
@@ -76,7 +83,10 @@ const DeleteProduct = () => {
             >
               <MdDelete />
             </button>
-            <button onClick={() => handleEdit(id)} className="text-blue-500 ">
+            <button
+              onClick={() => handleEdit(product)}
+              className="text-blue-500 "
+            >
               <MdEdit />
             </button>
           </div>
@@ -109,10 +119,23 @@ const DeleteProduct = () => {
           </div>
         </div>
       ) : null}
+      {isEditProduct ? (
+        <div className="absolute top-0 z-50 flex flex-col items-center justify-center w-full min-h-screen py-5 bg-black/50">
+          <UpdateProductForm />
+          <div className="p-2 ">
+            <button
+              className="px-2 py-1 text-white rounded-sm bg-black/50 hover:underline"
+              onClick={() => handleCancel()}
+            >
+              Back
+            </button>
+          </div>
+        </div>
+      ) : null}
+
       <div>
-        {isLoading ? (
-          <Loader />
-        ) : (
+        {isLoading ? // <Loader />
+        null : (
           <div className="flex flex-wrap gap-1 p-3 justify-evenly bg-slate-100">
             {products.map((item, index) => {
               return (

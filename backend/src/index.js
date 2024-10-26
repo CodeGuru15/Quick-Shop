@@ -45,6 +45,20 @@ app.post("/addproduct", async (req, res) => {
   }
 });
 
+app.post("/update", async (req, res) => {
+  try {
+    const updatedProduct = await req.body;
+    await knex("product")
+      .where("id", "=", updatedProduct.id)
+      .update(updatedProduct);
+
+    res.status(200).send("Product updated successfully");
+  } catch (error) {
+    console.error("Error updating product:", error);
+    res.status(500).send("Failed to update product");
+  }
+});
+
 app.post("/delete", async (req, res) => {
   try {
     const product = await req.body;

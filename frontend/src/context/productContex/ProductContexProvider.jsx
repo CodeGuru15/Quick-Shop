@@ -7,6 +7,8 @@ const ProductContexProvider = ({ children }) => {
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [updateProduct, setUpdateProduct] = useState({});
+  const [isEditProduct, setIsEditProduct] = useState(false);
 
   const fetchProduct = async () => {
     setIsLoading(true);
@@ -39,6 +41,10 @@ const ProductContexProvider = ({ children }) => {
         setIsSuccess,
         setIsLoading,
         fetchProduct,
+        updateProduct,
+        setUpdateProduct,
+        isEditProduct,
+        setIsEditProduct,
       }}
     >
       {children}
